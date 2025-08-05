@@ -1,0 +1,176 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version bump type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+        - patch
+        - minor
+        - major
+      custom_version:
+        description: 'Custom version (optional, overrides version_type)'
+        required: false
+        type: string
+      prerelease:
+        description: 'Mark as pre-release'
+        required: false
+        default: false
+        type: boolean
+      draft:
+        description: 'Create as draft release'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Configure git
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+    - name: Determine version
+      run: |
+        if [ -n "${{ inputs.custom_version }}" ]; then
+          echo "NEW_VERSION=${{ inputs.custom_version }}" >> $GITHUB_ENV
+          npm version ${{ inputs.custom_version }} --no-git-tag-version
+        else
+          npm version ${{ inputs.version_type }} --no-git-tag-version
+          echo "NEW_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+        fi
+        
+    - name: Update version in CLI
+      run: |
+        sed -i 's/\.version.*/.version('\''${{ env.NEW_VERSION }}'\'');/' src/index.ts
+        
+    - name: Run tests and validation
+      run: |
+        echo "🧪 Running comprehensive test suite..."
+        npm run build
+        npm run test:core
+        npm audit --audit-level=moderate
+        
+    - name: Generate changelog from commits
+      run: |
+        echo "## 🚀 DOMAINLOOKER v${{ env.NEW_VERSION }}" > CHANGELOG.md
+        echo "" >> CHANGELOG.md
+        echo "### 🎯 What's New" >> CHANGELOG.md
+        echo "" >> CHANGELOG.md
+        
+        # Get the previous version tag
+        PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+        if [ -n "$PREV_TAG" ]; then
+          echo "### 📋 Changes Since $PREV_TAG" >> CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          git log $PREV_TAG..HEAD --pretty=format:"- %s" --no-merges >> CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          echo "" >> CHANGELOG.md
+        fi
+        
+        echo "### ✨ Features" >> CHANGELOG.md
+        echo "- 🔍 **WHOIS Analysis** - Complete domain registration intelligence" >> CHANGELOG.md
+        echo "- 🌐 **DNS Investigation** - Comprehensive DNS record analysis (A, AAAA, MX, NS, TXT, SOA)" >> CHANGELOG.md
+        echo "- 🔒 **SSL Certificate Inspection** - Certificate validation and expiry monitoring" >> CHANGELOG.md
+        echo "- 🔥 **Network Scanning** - Port discovery and service identification" >> CHANGELOG.md
+        echo "- 🕸️ **Subdomain Discovery** - Advanced subdomain enumeration techniques" >> CHANGELOG.md
+        echo "- 📊 **Export Options** - CSV and JSON export with API-ready schemas" >> CHANGELOG.md
+        echo "- ⚠️ **Threat Assessment** - Automated security risk evaluation" >> CHANGELOG.md
+        echo "- 🎯 **Batch Processing** - Multiple domain analysis with parallel processing" >> CHANGELOG.md
+        echo "" >> CHANGELOG.md
+        echo "### 📦 Installation" >> CHANGELOG.md
+        echo "\`\`\`bash" >> CHANGELOG.md
+        echo "npm install -g domainlooker@${{ env.NEW_VERSION }}" >> CHANGELOG.md
+        echo "\`\`\`" >> CHANGELOG.md
+        echo "" >> CHANGELOG.md
+        echo "### 🚀 Quick Start" >> CHANGELOG.md
+        echo "\`\`\`bash" >> CHANGELOG.md
+        echo "# Single domain analysis" >> CHANGELOG.md
+        echo "domainlooker example.com" >> CHANGELOG.md
+        echo "" >> CHANGELOG.md
+        echo "# Multiple domains with subdomain discovery" >> CHANGELOG.md
+        echo "domainlooker google.com github.com --subdomains" >> CHANGELOG.md
+        echo "" >> CHANGELOG.md
+        echo "# Export results to JSON" >> CHANGELOG.md
+        echo "domainlooker example.com --export-json report.json" >> CHANGELOG.md
+        echo "\`\`\`" >> CHANGELOG.md
+        echo "" >> CHANGELOG.md
+        echo "### 🔗 Links" >> CHANGELOG.md
+        echo "- 📖 [Documentation](https://github.com/${{ github.repository }}#readme)" >> CHANGELOG.md
+        echo "- 📦 [npm Package](https://www.npmjs.com/package/domainlooker)" >> CHANGELOG.md
+        echo "- 🐛 [Report Issues](https://github.com/${{ github.repository }}/issues)" >> CHANGELOG.md
+        echo "- 🤝 [Contributing Guide](https://github.com/${{ github.repository }}/blob/main/CONTRIBUTING.md)" >> CHANGELOG.md
+        echo "" >> CHANGELOG.md
+        echo "### 🛠️ Requirements" >> CHANGELOG.md
+        echo "- Node.js 16.0.0 or higher" >> CHANGELOG.md
+        echo "- Internet connection for domain lookups" >> CHANGELOG.md
+        echo "" >> CHANGELOG.md
+        echo "### 🔄 Full Changelog" >> CHANGELOG.md
+        echo "View all changes: https://github.com/${{ github.repository }}/compare/$PREV_TAG...v${{ env.NEW_VERSION }}" >> CHANGELOG.md
+        echo "" >> CHANGELOG.md
+        echo "---" >> CHANGELOG.md
+        echo "**Made with ❤️ for the cybersecurity and developer community**" >> CHANGELOG.md
+        
+    - name: Create package tarball
+      run: |
+        npm pack
+        echo "PACKAGE_FILE=$(ls domainlooker-*.tgz)" >> $GITHUB_ENV
+        
+    - name: Commit version changes
+      run: |
+        git add package.json package-lock.json src/index.ts
+        git commit -m "chore: bump version to ${{ env.NEW_VERSION }}"
+        
+    - name: Create and push tag
+      run: |
+        git tag "v${{ env.NEW_VERSION }}"
+        git push origin main --tags
+        
+    - name: Create GitHub Release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        RELEASE_FLAGS=""
+        if [ "${{ inputs.prerelease }}" = "true" ]; then
+          RELEASE_FLAGS="$RELEASE_FLAGS --prerelease"
+        fi
+        if [ "${{ inputs.draft }}" = "true" ]; then
+          RELEASE_FLAGS="$RELEASE_FLAGS --draft"
+        fi
+        
+        gh release create "v${{ env.NEW_VERSION }}" \
+          --title "🕵️ DOMAINLOOKER v${{ env.NEW_VERSION }}" \
+          --notes-file CHANGELOG.md \
+          --latest \
+          $RELEASE_FLAGS \
+          "${{ env.PACKAGE_FILE }}"
+        
+    - name: Output release information
+      run: |
+        echo "🎉 Release v${{ env.NEW_VERSION }} created successfully!"
+        echo "📦 Package file: ${{ env.PACKAGE_FILE }}"
+        echo "🔗 Release URL: https://github.com/${{ github.repository }}/releases/tag/v${{ env.NEW_VERSION }}"
+        echo "📋 Next step: The release workflow will automatically publish to npm when the release is published."
