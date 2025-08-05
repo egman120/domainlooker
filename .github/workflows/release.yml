@@ -1,0 +1,205 @@
+name: Release & Publish
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version bump type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+        - patch
+        - minor
+        - major
+      dry_run:
+        description: 'Dry run (do not publish)'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  validate-release:
+    name: Validate Release
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run full test suite
+      run: |
+        npm run build
+        npm run test:core
+        
+    - name: Security audit
+      run: npm audit --audit-level=moderate
+      
+    - name: Validate package
+      run: npm run prepublishOnly
+
+  publish-npm:
+    name: Publish to NPM
+    runs-on: ubuntu-latest
+    needs: validate-release
+    if: github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && !inputs.dry_run)
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+        registry-url: 'https://registry.npmjs.org'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Configure git
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+    - name: Bump version (manual trigger)
+      if: github.event_name == 'workflow_dispatch'
+      run: |
+        npm version ${{ inputs.version_type }} --no-git-tag-version
+        echo "NEW_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+        
+    - name: Update version in source files
+      if: github.event_name == 'workflow_dispatch'
+      run: |
+        # Update version in CLI
+        sed -i 's/\.version.*/.version('\''${{ env.NEW_VERSION }}'\'');/' src/index.ts
+        
+    - name: Build for production
+      run: npm run build
+      
+    - name: Run pre-publish checks
+      run: npm run prepublishOnly
+      
+    - name: Publish to npm
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        
+    - name: Create git tag (manual trigger)
+      if: github.event_name == 'workflow_dispatch'
+      run: |
+        git add .
+        git commit -m "chore: bump version to ${{ env.NEW_VERSION }}"
+        git tag "v${{ env.NEW_VERSION }}"
+        git push origin main --tags
+        
+    - name: Create GitHub Release (manual trigger)
+      if: github.event_name == 'workflow_dispatch'
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ env.NEW_VERSION }}
+        release_name: Release v${{ env.NEW_VERSION }}
+        body: |
+          ## What's Changed
+          
+          Automated release of DOMAINLOOKER v${{ env.NEW_VERSION }}
+          
+          ### Features
+          - Domain intelligence gathering with WHOIS, DNS, SSL analysis
+          - Network scanning and subdomain discovery
+          - CSV and JSON export capabilities
+          - Threat assessment and security analysis
+          
+          ### Installation
+          ```bash
+          npm install -g domainlooker@${{ env.NEW_VERSION }}
+          ```
+          
+          ### Usage
+          ```bash
+          domainlooker example.com
+          ```
+          
+          Full documentation: https://github.com/${{ github.repository }}#readme
+        draft: false
+        prerelease: false
+
+  dry-run-publish:
+    name: Dry Run Publish
+    runs-on: ubuntu-latest
+    needs: validate-release
+    if: github.event_name == 'workflow_dispatch' && inputs.dry_run
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Bump version (dry run)
+      run: |
+        npm version ${{ inputs.version_type }} --no-git-tag-version
+        echo "Would publish version: $(node -p "require('./package.json').version")"
+        
+    - name: Build project
+      run: npm run build
+      
+    - name: Simulate publish
+      run: |
+        echo "🔍 Dry run - would publish with these contents:"
+        npm pack --dry-run
+        echo "✅ Dry run completed successfully"
+
+  post-publish:
+    name: Post-Publish Tasks
+    runs-on: ubuntu-latest
+    needs: publish-npm
+    if: success()
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Notify success
+      run: |
+        echo "🎉 Successfully published DOMAINLOOKER to npm!"
+        echo "📦 Package: https://www.npmjs.com/package/domainlooker"
+        echo "📚 Documentation: https://github.com/${{ github.repository }}"
+        
+    - name: Update package stats
+      run: |
+        echo "📊 Package Statistics:" > publish-stats.md
+        echo "- Published at: $(date)" >> publish-stats.md
+        echo "- GitHub Repository: ${{ github.repository }}" >> publish-stats.md
+        echo "- npm Package: https://www.npmjs.com/package/domainlooker" >> publish-stats.md
+        echo "- License: MIT" >> publish-stats.md
+        
+    - name: Archive publish stats
+      uses: actions/upload-artifact@v4
+      with:
+        name: publish-stats
+        path: publish-stats.md
+        retention-days: 90

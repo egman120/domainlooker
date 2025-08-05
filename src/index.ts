@@ -16,7 +16,7 @@ async function main() {
   program
     .name('domainlooker')
     .description('🕵️  Mission-critical domain intelligence gathering tool')
-    .version('1.0.0');
+    .version('0.1.1');
 
   program
     .argument('<domains...>', 'Target domain(s) to investigate (space-separated for multiple)')
