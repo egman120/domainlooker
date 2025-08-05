@@ -6,6 +6,8 @@ Get comprehensive information about any domain including WHOIS data, DNS records
 
 [![npm version](https://badge.fury.io/js/domainlooker.svg)](https://www.npmjs.com/package/domainlooker)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CI/CD Pipeline](https://github.com/AroraShreshth/domainlooker/actions/workflows/ci.yml/badge.svg)](https://github.com/AroraShreshth/domainlooker/actions/workflows/ci.yml)
+[![Security & Maintenance](https://github.com/AroraShreshth/domainlooker/actions/workflows/security.yml/badge.svg)](https://github.com/AroraShreshth/domainlooker/actions/workflows/security.yml)
 
 ## Quick Start
 
