@@ -3,6 +3,7 @@
   "version": "0.1.1",
   "description": "🕵️ Mission-critical domain intelligence gathering tool with spy-themed interface. Comprehensive WHOIS, DNS, SSL, network analysis, subdomain discovery, and API-ready JSON exports.",
   "main": "dist/index.js",
+  "type": "module",
   "bin": {
     "domainlooker": "./dist/index.js"
   },

@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
-import { DomainInfo, InspectionOptions } from '../types';
+import { DomainInfo, InspectionOptions } from '../types/index.js';
 import { 
   DomainAnalysisResponse, 
   DomainAnalysisData, 
@@ -14,7 +14,7 @@ import {
   ThreatAssessment,
   ThreatIndicator,
   DataSources
-} from '../types/api-schema';
+} from '../types/api-schema.js';
 
 export class JsonExportService {
   private domains: DomainAnalysisData[] = [];

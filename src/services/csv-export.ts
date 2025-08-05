@@ -1,4 +1,4 @@
-import { DomainInfo } from '../types';
+import { DomainInfo } from '../types/index.js';
 import * as fs from 'fs';
 import * as path from 'path';
 

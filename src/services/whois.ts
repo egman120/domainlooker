@@ -1,5 +1,5 @@
 import whois from 'whois';
-import { WhoisData } from '../types';
+import { WhoisData } from '../types/index.js';
 
 export class WhoisService {
   async lookup(domain: string): Promise<WhoisData> {

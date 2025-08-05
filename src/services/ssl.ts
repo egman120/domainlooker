@@ -1,6 +1,6 @@
 import * as tls from 'tls';
 import * as crypto from 'crypto';
-import { SSLData } from '../types';
+import { SSLData } from '../types/index.js';
 
 export class SSLService {
   async getCertificate(domain: string, port: number = 443): Promise<SSLData> {

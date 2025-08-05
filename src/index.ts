@@ -5,8 +5,8 @@ import chalk from 'chalk';
 import figlet from 'figlet';
 import gradient from 'gradient-string';
 import boxen from 'boxen';
-import { DomainInspector } from './domain-inspector';
-import { displayBanner, typeWriter } from './ui/effects';
+import { DomainInspector } from './domain-inspector.js';
+import { displayBanner, typeWriter } from './ui/effects.js';
 
 const program = new Command();
 
@@ -42,6 +42,6 @@ async function main() {
   program.parse();
 }
 
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch(console.error);
 }

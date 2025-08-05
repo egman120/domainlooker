@@ -1,5 +1,5 @@
 import { Socket } from 'net';
-import { NetworkData } from '../types';
+import { NetworkData } from '../types/index.js';
 
 export class NetworkService {
   private readonly commonPorts = [21, 22, 23, 25, 53, 80, 110, 143, 443, 993, 995];

@@ -1,5 +1,5 @@
 import { promises as dns } from 'dns';
-import { DNSData } from '../types';
+import { DNSData } from '../types/index.js';
 
 export class DNSService {
   async lookup(domain: string): Promise<DNSData> {

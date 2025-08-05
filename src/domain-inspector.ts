@@ -1,14 +1,14 @@
 import chalk from 'chalk';
 import Table from 'cli-table3';
-import { WhoisService } from './services/whois';
-import { DNSService } from './services/dns';
-import { SSLService } from './services/ssl';
-import { NetworkService } from './services/network';
-import { SubdomainService } from './services/subdomain';
-import { CSVExportService } from './services/csv-export';
-import { JsonExportService } from './services/json-export';
-import { createSpinner, missionComplete, criticalAlert } from './ui/effects';
-import { DomainInfo, InspectionOptions } from './types';
+import { WhoisService } from './services/whois.js';
+import { DNSService } from './services/dns.js';
+import { SSLService } from './services/ssl.js';
+import { NetworkService } from './services/network.js';
+import { SubdomainService } from './services/subdomain.js';
+import { CSVExportService } from './services/csv-export.js';
+import { JsonExportService } from './services/json-export.js';
+import { createSpinner, missionComplete, criticalAlert } from './ui/effects.js';
+import { DomainInfo, InspectionOptions } from './types/index.js';
 
 export class DomainInspector {
   private whoisService = new WhoisService();
