@@ -27,6 +27,11 @@ on:
         default: false
         type: boolean
 
+permissions:
+  contents: write
+  packages: write
+  pull-requests: read
+
 jobs:
   create-release:
     name: Create Release
